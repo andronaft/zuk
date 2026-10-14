@@ -1,0 +1,25 @@
+name: Draw ZUK
+
+on:
+  schedule:
+    - cron: "41 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  draw:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Redraw the letters
+        env:
+          ART_NAME: andronaft
+          ART_EMAIL: andronaft99@gmail.com
+        run: python3 scripts/draw.py
+      - name: Publish
+        run: git push --force origin HEAD:main
